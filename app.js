@@ -1,26 +1,36 @@
 var argv = require('minimist')(process.argv.slice(2));
 var _ = require('lodash');
-var work = require('./lib/work');
+var collector = require('./lib/collector');
 var client = require('./lib/client');
+var config = require('./lib/config');
 
 delete argv._;
 
 var tags = _.keys(argv);
-var pub = new client.Publish();
+
+var broker = config.broker;
+var interval = 1000;
 
 tags.forEach(function(key) {
 	switch(key) {
 		case 'i':
-			work.interval = argv[key];
+			interval = argv[key];
 			break;
 		case 'h':
-			pub.host = argv[key];
+			broker.host = argv[key];
 			break;
 		case 'p':
-			pub.port = argv[key];
+			broker.port = argv[key];
 			break;
 	}
 });
 
-console.log('Start Job...')
-work.start(new (require('./lib/collector')).Collector(pub));
+var opts = {
+	publisher: client(broker)
+}
+
+console.log('Start Job...');
+
+setInterval(() => {
+	collector(opts).run();
+}, interval);
