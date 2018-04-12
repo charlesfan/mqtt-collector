@@ -1,7 +1,7 @@
 var argv = require('minimist')(process.argv.slice(2));
 var _ = require('lodash');
 var collector = require('./lib/collector');
-var client = require('./lib/client');
+var client = require('./lib/publisher');
 var config = require('./lib/config');
 
 delete argv._;
