@@ -9,7 +9,7 @@ delete argv._;
 var tags = _.keys(argv);
 
 var broker = config.broker;
-var interval = 1000;
+var interval = process.env.MQTT_PUB_INTERVAL || 1000;
 
 tags.forEach(function(key) {
 	switch(key) {
