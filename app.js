@@ -26,7 +26,7 @@ tags.forEach(function(key) {
 });
 
 var opts = {
-	publisher: client(broker)
+	publisher: client(broker, process.env.MQTT_PUB_TOPIC)
 }
 
 console.log('Start Job...');
